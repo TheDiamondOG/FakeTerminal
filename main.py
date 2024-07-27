@@ -231,6 +231,7 @@ class CommandFunctions:
 
             print(cool_colors.colorize(f"{addon['name']}:", color="cyan"))
             print(cool_colors.colorize(f" - {addon['description']}", color="cyan"))
+            print(cool_colors.colorize(f" - Version: {addon['version']}", color="cyan"))
             print(cool_colors.colorize(f" - Requires Custom Libraries: <{addon['custom_libs']}>", color="cyan"))
             print(cool_colors.colorize(f"-------------------------", color="blue"))
         print(cool_colors.colorize(f"Addon Count: {count}", color="cyan"))
