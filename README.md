@@ -1,7 +1,7 @@
 # Fake Terminal
 This is a python app used to bypass terminal blocks, but also to have a cool layout with having custom commands and addons
 # Install
-Clone the Github repository
+Clone the GitHub repository
 ```shell
 git clone https://github.com/TheDiamondOG/FakeTerminal
 ```
@@ -51,7 +51,7 @@ Replace the "An example addon" with your addon description
 Replace the "1.0.0" with your addon version
 Keep the `custom_libs` the same
 
-Now lets do the command function
+Now let's do the command function
 ```python
 def example_command(args):  
     print("Example command cool:", args)  
@@ -110,7 +110,7 @@ except Exception:
 # Ideas
 Linux Mode
 - When on windows it will translate linux commands to windows commands
-- This will invalve argument and command changing
+- This will involve argument and command changing
 Info Getting
 - Get Mac Address
-- Get Enviroment Variables
+- Get Environment Variables
