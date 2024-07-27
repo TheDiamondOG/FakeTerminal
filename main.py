@@ -40,6 +40,17 @@ required_libraries = [
 # Cool addons list
 addons = []
 
+def check_version():
+    with open("version.txt", "r") as f:
+        program_version = f.read()
+
+    # Uses ipify to get your ip address then prints it
+    with urllib.request.urlopen("https://api.ipify.io") as response:
+        last_update = response.read()
+
+    if program_version != last_update:
+        print("You are running an outdated version of the program, please update it at https://github.com/TheDiamondOG/FakeTerminal")
+
 class CoolSystemCrap:
     def get_user_name(self):
         # Honestly no clue if USER is in windows or if it's just a linux thing, so why not use both
@@ -360,6 +371,8 @@ def load_addons(addons_folder="addons"):
 # Make ctrl+c and ctrl+z not exit
 signal.signal(signal.SIGINT, ignore_crap)
 signal.signal(signal.SIGTSTP, ignore_crap)
+
+check_version()
 
 # Load all the custom addons
 load_addons()
