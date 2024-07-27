@@ -106,3 +106,11 @@ except Exception:
 2. Move into addons folder
 3. Run the program
 4. Run the command `list_addons` and check to see if the addon install correctly
+
+# Ideas
+Linux Mode
+- When on windows it will translate linux commands to windows commands
+- This will invalve argument and command changing
+Info Getting
+- Get Mac Address
+- Get Enviroment Variables
