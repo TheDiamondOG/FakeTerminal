@@ -1,6 +1,7 @@
 addon_info = {
     "name": "Example Addon",
     "description": "An example addon",
+    "version": "1.0.0",
     "custom_libs": False
 }
 

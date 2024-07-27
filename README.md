@@ -22,7 +22,8 @@ To add a custom command you can use this as an example
 ```python
 addon_info = {  
     "name": "Example Addon",  
-    "description": "An example addon",  
+    "description": "An example addon", 
+    "version": "1.0.0",
     "custom_libs": False  
 }  
   
@@ -39,13 +40,15 @@ First with the addon info
 ```python
 addon_info = {  
     "name": "Example Addon",  
-    "description": "An example addon",  
+    "description": "An example addon", 
+    "version": "1.0.0",
     "custom_libs": False  
 }
 ```
 This is required for the addon to work
 Replace the "Example Addon" with you addon name
 Replace the "An example addon" with your addon description
+Replace the "1.0.0" with your addon version
 Keep the `custom_libs` the same
 
 Now lets do the command function
@@ -72,6 +75,7 @@ If you need any custom libraries that don't come with the script use this
 addon_info = {  
     "name": "Example Addon",  
     "description": "An example addon with custom libs",  
+    "version": "1.0.0",
     "custom_libs": True  
 }  
   
