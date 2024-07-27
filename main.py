@@ -1,3 +1,4 @@
+# Cool random imports
 import os
 import subprocess
 import socket
@@ -5,8 +6,9 @@ import sys
 import urllib.request
 import signal
 import importlib.util
-import readline  # Import readline module for command history
+import readline
 
+# Clears the console window
 def clear():
     if os.name == "nt":
         os.system("cls")
@@ -17,14 +19,17 @@ clear()
 
 limited_mode = True
 
+# Try to import libraries that don't come with python
 try:
     import requests
 
     limited_mode = False
 except Exception:
+    # If it fails tale the user to install them
     print("Could not get all custom libraries to run, please run the command 'install_requirements' to get the full thing with all custom commands")
     limited_mode = True
 
+# The list of required libraries that I am not using
 required_libraries = [
     "requests",
     "rich",
@@ -32,96 +37,133 @@ required_libraries = [
     "pyfiglet"
 ]
 
+# Cool addons list
 addons = []
 
 class CoolSystemCrap:
     def get_user_name(self):
+        # Honestly no clue if USER is in windows or if it's just a linux thing, so why not use both
         return os.getenv('USER') or os.getlogin()
 
     def get_hostname(self):
+        # Used a file that only exists in linux, then I remembered that is meant to work on windows too
         return socket.gethostname()
 
     def path_changer(self, path: str):
+        # This is for the cd .. feacher but with the ability to use ,,
         if path == ".." or path == ",,":
+            # Check if it's a path done the right wat
             if "/" in os.getcwd():
                 path_split = os.getcwd().split("/")
                 path_splitter = "/"
+            # Or the stupid way windows does it that needs every program to use 2 backslashes
             else:
                 path_split = os.getcwd().split("\\")
                 path_splitter = "\\"
 
+            # Remove the last folder
             path_split.pop(-1)
 
+            # Then change directory
             os.chdir(f'{path_splitter}'.join(path_split))
         else:
+            # Change the directory if the path exists
             if os.path.exists(path):
                 os.chdir(path)
             else:
+                # Tells the user the path does not exist
                 print(cool_colors.colorize("Not a real path", "cyan"))
 
     def get_path(self):
+        # The original used a variable, then I remembered this is meant to also work on windows
         return os.getcwd()
 
 
 class CommandSystem:
     def __init__(self):
+        # Cool lists and dicts
         self.custom_command_list = {}
         self.history = []
 
     def add_command(self, command: str, description: str, category: str, method, custom_libs: bool):
+        # If the category does not exist, if not add it
         if category not in self.custom_command_list:
             self.custom_command_list[category] = []
+        # The template for every command info crap
         command_template = {
             "command": command,
             "description": description,
             "custom_libs": custom_libs,
             "function": method
         }
+        # Then add the command info to the command list
         self.custom_command_list[category].append(command_template)
 
     def remove_command(self, command: str):
+        # Get every category
         for category in self.custom_command_list.values():
+            # Get all commands
             for commannd in category:
+                # Check if the command is the command
                 if commannd["command"] == command:
+                    # Then remove it
                     category.remove(commannd)
                     return
 
     def check_command(self, command: str):
+        # Get every category again
         for category in self.custom_command_list.values():
+            # Get every command again
             for commannd in category:
+                # Then run the check I will never use
                 if commannd["command"] == command:
                     return True
         return False
 
     def command_list(self):
+        # Grabs the command list, this is not needing a comment, but I put it here
         return self.custom_command_list
 
     def requires_custom_libs(self, command: str):
+        # Get all the categories
         for category in self.custom_command_list.values():
+            # Get all the commands
             for commannd in category:
+                # Check if the command is the command being looked for
                 if commannd["command"] == command:
+                    # Return the custom lib status for it
                     return commannd["custom_libs"]
+        # If it does not exist then the function shuts up
         return None
 
     def process_command(self, command):
+        # Check if the command is a string
         if isinstance(command, str):
+            # Then split the string
             command_split = command.split(" ")
         elif isinstance(command, list):
+            # If not just call it command_split
             command_split = command
         else:
+            # If it's anything else break the whole command system
             return False
 
         # Add command to history
         if command and command not in self.history:
+            # Add the command to the command history that is not saved
             self.history.append(command)
             readline.add_history(command)  # Add command to readline history
 
+        # Check every category for the command
         for category in self.custom_command_list.values():
             for commannd in category:
+                # If it finds it then run the command
                 if command_split[0] == commannd["command"]:
                     args = command_split[1:]
+                    # Check if it exits the script
                     if commannd["function"] == exit:
                         exit()
+                    # Checks for the script not to break when custom libraries are not installed
                     if commannd["custom_libs"]:
                         if not limited_mode:
                             commannd["function"](args)
@@ -130,16 +172,19 @@ class CommandSystem:
                         commannd["function"](args)
                         return
         else:
+            # Combine the list into a string
             if isinstance(command, list):
                 command = ' '.join(command)
+            # Then run the command through the system
             os.system(command)
 
 
 def restart(args: list = None):
+    # Restarts the script
     print("Restarting script...")
     os.execl(sys.executable, sys.executable, *sys.argv)
 
-
+# Simple color system that I won't explain
 class ColorText:
     COLORS = {
         'black': '\033[30m',
@@ -173,71 +218,91 @@ class ColorText:
     }
 
     def colorize(self, text: str, color=None, background=None, style=None):
-        colored_text = text
-
         if style and style in self.STYLES:
-            colored_text = self.STYLES[style] + colored_text
+            text = self.STYLES[style] + text
 
         if color and color in self.COLORS:
-            colored_text = self.COLORS[color] + colored_text
+            text = self.COLORS[color] + text
 
         if background and background in self.BACKGROUNDS:
-            colored_text = self.BACKGROUNDS[background] + colored_text
+            text = self.BACKGROUNDS[background] + text
 
-        return colored_text + self.STYLES['reset']
+        return text + self.STYLES['reset']
 
 
 class CommandFunctions:
     def install_requirements(self, args: list = None):
+        # Installs all requirements from the list
         for requirement in required_libraries:
             print(cool_colors.colorize(f"Installing {requirement}", "cyan"))
             subprocess.run(["pip", "install", requirement, "--break-system-packages"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         restart()
 
     def change_directory(self, args: list = None):
+        # Change the directory with the big changer
         cool_system_crap.path_changer(args[0])
 
     def get_current_ip_address(self, args: list = None):
+        # Uses ipify to get your ip address then prints it
         with urllib.request.urlopen("https://api.ipify.io") as response:
             data = response.read()
             print(cool_colors.colorize(data.decode('utf-8'), color="cyan"))
 
     def get_device_ip_address(self, args: list = None):
+        # Prints your device ip
         print(cool_colors.colorize(socket.gethostbyname(socket.gethostname()), color="cyan"))
 
+    # Lists all the commands
     def help(self, args: list = None):
         print(cool_colors.colorize("====== Help Command ======", color="blue"))
+        # Get all the categories
         for category in custom_command.command_list():
+            # Split the category name by the _
             category_split = category.split("_")
+            # Make a count
             count = 0
+            # Get every word in the category name
             for word in category_split:
+                # Capitalize the first letter of each word
                 category_split[count] = word.capitalize()
                 count += 1
 
+            # Join the list together as a string
             category_name = ' '.join(category_split)
+
+            # Print the category name
             print(cool_colors.colorize(f"{category_name}:", color="cyan"))
+            # Get every command in the category
             for command in custom_command.command_list()[category]:
+                # Print the command and command info
                 print()
                 print(cool_colors.colorize(f"{command['command']}", color="cyan"))
                 print(cool_colors.colorize(f" - {command['description']}", color="cyan"))
                 print(cool_colors.colorize(f" - Requires Custom Libraries: <{command['custom_libs']}>", color="cyan"))
             print(cool_colors.colorize(f"-------------------------", color="blue"))
 
+    # Lists all the addons you have
     def list_addons(self, args: list = None):
+        # Count to see how many addons you have
         count = 0
+
         print(cool_colors.colorize("====== List Addons ======", color="blue"))
+        # Get every addon with info
         for addon in addons:
             print()
+            # Add one to the addon count
             count += 1
 
+            # Print out the addon info
             print(cool_colors.colorize(f"{addon['name']}:", color="cyan"))
             print(cool_colors.colorize(f" - {addon['description']}", color="cyan"))
             print(cool_colors.colorize(f" - Version: {addon['version']}", color="cyan"))
             print(cool_colors.colorize(f" - Requires Custom Libraries: <{addon['custom_libs']}>", color="cyan"))
             print(cool_colors.colorize(f"-------------------------", color="blue"))
+        # Print addon count
         print(cool_colors.colorize(f"Addon Count: {count}", color="cyan"))
 
-
+# All of the custom classes
 cool_colors = ColorText()
 custom_command = CommandSystem()
 cool_system_crap = CoolSystemCrap()
