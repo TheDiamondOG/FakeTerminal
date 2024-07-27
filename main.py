@@ -1,11 +1,11 @@
 import os
+import subprocess
 import socket
 import sys
-import subprocess
 import urllib.request
 import signal
 import importlib.util
-import readline
+import readline  # Import readline module for command history
 
 def clear():
     if os.name == "nt":
@@ -112,8 +112,9 @@ class CommandSystem:
             return False
 
         # Add command to history
-        if command not in self.history:
+        if command and command not in self.history:
             self.history.append(command)
+            readline.add_history(command)  # Add command to readline history
 
         for category in self.custom_command_list.values():
             for commannd in category:
