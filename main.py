@@ -41,13 +41,29 @@ required_libraries = [
 addons = []
 
 def check_version():
-    with open("version.txt", "r") as f:
-        program_version = f.read()
+    # Look for the version.txt file
+    if os.path.exists("version.txt"):
+        # Open the file to read
+        with open("version.txt", "r") as f:
+            # Get the program version from the file
+            program_version = f.read()
+    else:
+        # Error if it does not exist
+        print("Can't find the version.txt file, either run your terminal in the program folder, move the version.txt to your current folder, or update the program at https://github.com/TheDiamondOG/FakeTerminal")
 
-    # Uses ipify to get your ip address then prints it
-    with urllib.request.urlopen("https://raw.githubusercontent.com/TheDiamondOG/FakeTerminal/master/version.txt") as response:
-        last_update = response.read()
+    # Try statement to catch web errors
+    try:
+        # Get the current version of the program
+        with urllib.request.urlopen("https://raw.githubusercontent.com/TheDiamondOG/FakeTerminal/master/version.txt") as response:
+            last_update = response.read()
+    except Exception:
+        # The request fails because I was stupid and deleted the repo, no internet, or github is just blocked, like it is in some school counties. All because they blame github for blooket, gimkit, and kahoot hacks. Jokes on them I know how to use replit and how to set it up as a proxy. HOW DO YOI LIKE THAT. Also, the spy ware on the school chromebooks suck, they were bypassed by using the data:html feature. The same one used by the other spyware, that also blocked ipify.io, ipinfo.io, and buckshot rulet. Even though this happened 4 or more months ago I am still mad about this. So next project coming up, school blocker bypass using data:html because the software they use is to stupid enough to look through it.
+        print("Failed to get current version, either https://raw.githubusercontent.com is blocked, or you have no internet")
 
+    if program_version == "69":
+        print("Very funny, everyone is laughing")
+
+    # Checks to see if the version numbers are the same
     if program_version != last_update:
         print("You are running an outdated version of the program, please update it at https://github.com/TheDiamondOG/FakeTerminal")
 
