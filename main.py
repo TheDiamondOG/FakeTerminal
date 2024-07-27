@@ -45,7 +45,7 @@ def check_version():
         program_version = f.read()
 
     # Uses ipify to get your ip address then prints it
-    with urllib.request.urlopen("https://api.ipify.io") as response:
+    with urllib.request.urlopen("https://raw.githubusercontent.com/TheDiamondOG/FakeTerminal/master/version.txt") as response:
         last_update = response.read()
 
     if program_version != last_update:
