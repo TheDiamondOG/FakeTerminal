@@ -1,6 +1,5 @@
 # Fake Terminal
 This is a python app used to bypass terminal blocks, but also to have a cool layout with having custom commands and addons
-
 # Install
 Clone the Github repository
 ```shell
@@ -12,6 +11,11 @@ Run a python app
 python3 main.py
 ```
 
+# Run with bypass
+On windows with the terminal blocked do these steps
+1. Copy folder to `C:\Users\%USER%\Documents\`
+2. Click `Win+R`
+3. Then type `cmd.exe python3 C:\Users\%USER%\Documents\FakeTerminal\main.py`
 # Making Addons
 
 To add a custom command you can use this as an example
