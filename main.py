@@ -6,7 +6,6 @@ import sys
 import urllib.request
 import signal
 import importlib.util
-import readline
 
 # Clears the console window
 def clear():
@@ -22,7 +21,8 @@ limited_mode = True
 # Try to import libraries that don't come with python
 try:
     import requests
-
+    import readline
+    
     limited_mode = False
 except Exception:
     # If it fails tale the user to install them
@@ -34,7 +34,8 @@ required_libraries = [
     "requests",
     "rich",
     "flask",
-    "pyfiglet"
+    "pyfiglet",
+    "readline",
 ]
 
 # Cool addons list
